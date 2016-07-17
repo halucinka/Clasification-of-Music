@@ -1,0 +1,480 @@
+import math
+import copy
+
+def suma(a, b):#a, b su uz logaritmy, len ich treba scitat spravne
+	e = 2.71828182845904523536
+	if (a == 47):
+		return b
+	elif (b == 47):
+		return a
+	else:
+		return 	a+math.log(1+e**(b-a))
+
+def mul(a, b): #a, b su uz logaritmy, teda mul = scitanie
+	if ((a == 47) or (b == 47)):
+		return 47
+	return a+b
+
+class HMM:
+	def __init__(self):
+		self.s = [0, 0, 0]
+		self.e = [[0 for x in range(-11,12)] for x in range(3)] 
+		self.t = [[0, 0, 0],[0, 0, 0],[0, 0, 0]]
+		self.Pr_seq=0
+		self.f = ''
+		self.pocet_stavov = 3
+		self.lines = 0
+
+	def nastav(self, s, e, t, f): # nastavi pociatocne parametre uz v zlogaritmovanom stave
+		self.t = t
+		self.s = s
+		self.e = e
+		self.f = f
+
+		for i in range (0, len(self.s)):
+			if self.s[i] == 0:
+				self.s[i] = 47
+			else:
+			 self.s[i]=math.log(self.s[i])
+
+		for j in range (0, self.pocet_stavov):
+			for i in range (0, 23):
+				if self.e[j][i] == 0:
+					self.e[j][i] = 47
+				else:
+					self.e[j][i]=math.log(self.e[j][i])
+		for i in range (0, self.pocet_stavov):
+			for j in range (0, self.pocet_stavov):
+				if (self.t[i][j] == 0):
+					self.t[i][j] = 47
+					#print('toto t ')
+					#print(self.t[i][j])							
+					#print('sa zmeni na ')
+					self.t[i][j]=math.log(self.t[i][j])
+					#print(self.t[i][j])
+				else:
+					self.t[i][j] = 1
+		#print(s)
+		#print(e)
+		#print(t)
+
+	def ForwardTabulka(self, sekvencia):
+		#print("forwardtabulka")
+		seq = [0 for x in range(len(sekvencia))]
+		for i in range(0, len(sekvencia)):
+			seq[i] = int(sekvencia[i])
+		F= [[0 for x in range(self.pocet_stavov)] for x in range(len(seq))] 
+		for j in range(0, self.pocet_stavov):
+			F[0][j] = mul(self.s[j],self.e[j][seq[0]])
+		#	print(j)
+		#	print(F[0][j])
+
+		for i in range (1,len(seq)):
+			for j in range (0, self.pocet_stavov):
+				temp=[0 for x in range(self.pocet_stavov)]
+				for k in range(0, self.pocet_stavov):
+						temp[k] =mul(mul(F[i-1][k],self.t[k][j]),self.e[j][seq[i]])#generujeme i-te pismenko v stave j, cez vsetky stavy j
+				#scitame pole temp a to bude F[i][j], od najvacsieho po najmensie, aby chyba bola co najmensia
+				#print('temp pre i a j ', i, ' ', j)
+				#print(temp)
+				temp.sort()
+				F[i][j]=1
+				for k in range(self.pocet_stavov-1, -1, -1):
+				#print('som v scitavani temp', k)
+					F[i][j]=suma(F[i][j], temp[k])
+				#print('scitala som temp', F[i][j])
+		self.Pr_seq = 1
+		temp = [0 for x in range(self.pocet_stavov)]
+		for i in range(0, self.pocet_stavov):
+			temp[i] = F[len(seq)-1][i]
+		temp.sort()
+		for j in range(self.pocet_stavov-1, -1, -1):		
+			self.Pr_seq = suma(self.Pr_seq, temp[j])
+		
+		return F
+		#mame tabulku F a pravdepodobnost sekvencie Pr_seq, vsetko su logaritmy
+
+	def BackwardTabulka(self, sekvencia): # zaciname prechodovou pravdepodobnostou
+		 #print('som v backward tabulke')
+		seq = [0 for x in range(len(sekvencia))]
+		for i in range(0, len(sekvencia)):
+			seq[i] = int(sekvencia[i])
+		B = [[1 for x in range(self.pocet_stavov)] for x in range(len(seq))] 
+		for j in range (0, self.pocet_stavov):
+			#print(len(seq))
+			B[len(seq)-1][j] = 0 # toto je 0, lebo ln 1=0
+			#print(B)
+		for i in range (len(seq)-2, -1, -1): # dlzka_sekvencia MINUS JEDEN???????????
+		#	print(i)
+			for j in range (0, self.pocet_stavov):
+				B[i][j] = 1
+				temp=[1 for x in range(self.pocet_stavov)]
+				for k in range(0, self.pocet_stavov):
+					temp[k] =mul(mul(self.t[j][k],self.e[k][seq[i + 1]]),B[i+1][k])					
+				#print('temp pre i a j ', i, ' ', j)
+				#print(temp)
+				temp.sort()
+		#		print('som tu')
+				for k in range(self.pocet_stavov-1, -1, -1):
+					#print('som v scitavani temp', k)
+					B[i][j] = suma(B[i][j],temp[k])
+				
+		#		print('scitala som temp', B[i][j])
+		#print(B)
+		return B
+
+
+	def new_t_e(self):
+		noty_rel_cisla = open (self.f, 'r')
+		self.lines = 0
+		for line in noty_rel_cisla:
+			self.lines += 1
+		noty_rel_cisla.close()
+		noty_rel_cisla = open(self.f, 'r')
+		#scitavanie cez vsetky trenovacie sekvencie:
+		print('lines', self.lines)
+		a=-1
+		A = [[[1 for x in range(self.pocet_stavov)] for x in range(self.pocet_stavov)] for x in range(self.lines)]
+		E = [[[1 for x in range(-11, 12)] for x in range(self.pocet_stavov)] for x in range(self.lines)]
+		for line in noty_rel_cisla:
+			a+=1
+			#print('a',a)
+			seq=line.split()
+			#print(seq)
+			F= [[[47 for x in range(self.pocet_stavov)] for x in range(len(seq))] ]
+			B= [[47 for x in range(self.pocet_stavov)] for x in range(len(seq))] 
+			F = self.ForwardTabulka(seq)
+			B = self.BackwardTabulka(seq)
+
+			#print('forward',F)
+			#print('backward',B)
+			#mame vyratanu Pr_seq
+			chi = [[[47 for x in range(len(seq))] for x in range(self.pocet_stavov)] for x in range(self.pocet_stavov)] #chi[a][b][t] pravdep. tranz. z a do b v case t
+			gamma = [[47 for x in range(len(seq))] for x in range(self.pocet_stavov)]
+			pravd_stavu = [47 for x in range(self.pocet_stavov)]
+			for k in range (0, self.pocet_stavov):
+				#print('K je ', k)
+				pravdep_stavu=[47 for x in range(len(seq))]#menovatel je pre kazdy stav rovnaky, zalezi len na case
+				for i in range (0, len(seq)): 
+					pravd_stavu[k] = suma(mul(F[i][k],B[i][k]), pravd_stavu[k])
+				#spocitany menovatel_chi[t]
+			print('pravd_stavu', pravd_stavu)
+			# pre kazdu sekvenciu si budeme pamatat A[k, l] a E[k, L]
+		
+			#pocitame t (teda A)
+			for k in range(0, self.pocet_stavov):
+				for l in range(0, self.pocet_stavov):
+					temp = [47 for x in range(len(seq))]
+					for i in range(0, len(seq)-1):
+						temp[i] =mul(mul(F[i][k], self.t[k][l]), mul(self.e[l][int(seq[i+1])],B[i+1][l]))
+					temp.sort()
+					for i in range(len(seq)-1, -1, -1):
+						A[a][k][l] = suma(A[a][k][l], temp[i])
+					A[a][k][l] = mul(A[a][k][l], -pravd_stavu[k])
+			#pocitame e (teda E)
+			for k in range(0, self.pocet_stavov):
+				for b in range(-11, 12):
+					for i in range(0, len(seq)):
+						if (int(seq[i]) == b):
+							#print('som v ife')
+							E[a][k][b] = suma(E[a][k][b], mul(F[i][k],B[i][k]))
+							#print(mul(F[i][k], B[i][k]))
+					E[a][k][b] = mul(E[a][k][b], -pravd_stavu[k])
+					#print('pravd stavu', pravd_stavu[k])
+					#print('Eakb',E[a][k][b])
+		#print('cele E', E)
+		new_s = self.s #??????????????????? 
+		new_t= [[47, 47, 47],[47, 47, 47],[47, 47, 47]]
+		new_e= [[47 for x in range(-11,12)] for x in range(self.pocet_stavov)]
+					
+
+
+		#spocitat new t tak, ze zosumujeme A[a][k][l] cez vsetky sekvencie a vydelime sumou A[k][l] cez vsetky l
+		all_t = [[47 for x in range(self.pocet_stavov)] for x in range(self.pocet_stavov)]
+		for k in range(0, self.pocet_stavov):
+			for l in range(0, self.pocet_stavov):
+				temp = [47 for x in range(self.lines)]
+				for u in range(0, self.lines):
+					#print('u', u)
+					temp[u] = A[u][k][l]
+				temp.sort()
+				for u in range(0, self.lines):
+					all_t[k][l] = suma(all_t[k][l], temp[u])
+		for k in range(0, self.pocet_stavov):
+			temp = [47 for x in range(self.pocet_stavov)]
+			for l in range(0, self.pocet_stavov):
+				temp[l] = all_t[k][l]
+			temp.sort()
+			sucet_cez_l = 47
+			for l in range(0, self.pocet_stavov):
+				sucet_cez_l = suma(sucet_cez_l, temp[l])
+			for l in range(0, self.pocet_stavov):
+				new_t[k][l] = mul(all_t[k][l], -sucet_cez_l)
+
+		#spocitame new_e tak, ze zosumujeme E[a][k][b] cez vsetky sekvencie a vydelime sumou E[k][b] cez vsetky b
+		all_e = [[47 for x in range(-11, 12)] for x in range(self.pocet_stavov)]
+		for k in range(0, self.pocet_stavov):
+			for b in range(-11, 12):
+				temp = [47 for x in range(self.lines)]
+				for u in range(0, self.lines):
+					temp[u] = E[u][k][b]
+				#print('temp', temp)
+				temp.sort()
+				
+				for u in range(0, self.lines):
+					all_e[k][b] = suma(suma(all_e[k][b], temp[u]), math.log(0.001)) # pripocitat pseudocount?????
+		for k in range(0, self.pocet_stavov):
+			temp = [47 for x in range(-11,12)]
+			for b in range(-11, 12):
+				temp[b] = all_e[k][b]
+			temp.sort()
+			sucet_cez_b = 47
+			for b in range(-11, 12):
+				sucet_cez_b = suma(sucet_cez_b, temp[b])
+			for b in range(-11, 12):
+				#print('b', b)
+				new_e[k][b] = (mul(all_e[k][b], -sucet_cez_b)) 
+				#print(new_e[k][b])
+
+
+#			for i in range (0, self.pocet_stavov):
+#				for t in range (0, len(seq)):
+#					gamma[i][t] = mul(mul(F[t][i], B[t][i]), -pravd_stavu[i])
+#			#spocitanu gammu
+#			for i in range (0, self.pocet_stavov):
+#				for j in range (0, self.pocet_stavov):
+#					for t in range(0, len(seq)-1):
+#						#print(i, j, t)
+#						chi[i][j][t] =mul(mul( mul(F[t][i], self.t[i][j]), mul(B[t+1][i], self.e[j][int(seq[t+1-1])])), -menovatel_chi[i])
+#
+#			all_s = [[1 for x in range(0, self.pocet_stavov)] for x in range(0, lines)]
+#
+#			for i in range (0, self.pocet_stavov):
+#				all_s[a][i] = gamma[i][0]
+#			#nove t:
+#			all_t =[[[1 for x in range(0, self.pocet_stavov)] for x in range(0, self.pocet_stavov)] for x in range(0, lines)]
+#			for i in range(0, self.pocet_stavov):
+#				for j in range(0, self.pocet_stavov):
+#					temp_gamma = [1 for x in range (0, len(seq))]
+#					temp_chi = [1 for x in range (0, len(seq))]
+#					for t in range (0, len(seq)-1):
+#						temp_chi[t] = chi[i][j][t]
+#						temp_gamma[t] = gamma[i][t]
+#					temp_chi.sort()
+#					temp_gamma.sort()
+#					citatel_t = 1
+#					menovatel_t = 1
+#					for t in range(0, len(seq)):
+#						citatel_t =suma(citatel_t, temp_chi[t])
+#						menovatel_t = suma(menovatel_t, temp_gamma[t])
+#					all_t[a][i][j] = mul(citatel_t, -menovatel_t)		
+#
+#			#nove e:
+#			all_e =[[[1 for x in range(-11, 12)] for x in range(0, self.pocet_stavov)] for x in range(0, lines)]
+#			for i in range(0, self.pocet_stavov):
+#				temp_gamma = [1 for x in range (0, len(seq))]
+#				for t in range (0, len(seq)):
+#					temp_gamma[t] = gamma[i][t]
+#				temp_gamma.sort()
+#				print('temp_gamma',temp_gamma)
+#				#print('gamma i t', gamma[i][t])
+#				menovatel_e = 1
+#				for t in range(0, len(seq)):
+#					menovatel_e = suma(menovatel_e, temp_gamma[t])
+#				print('menovatel_e',menovatel_e)
+#			
+#				for x in range(-11, 12): # vsetky mozne relativne rozdiely not
+#					citatel_e = 1
+#					for t in range (0, len(seq)):
+#						if (int(seq[t]) == x):
+#							print('zhoda', x, int(seq[t]))
+#							citatel_e = suma(citatel_e, gamma[i][t])
+#							print('citatel_e', citatel_e)#MENOVATEL MOZE BYT KLADNY AJ ZAPORNY???
+#
+#					all_e[a][i][x] = mul(citatel_e, -menovatel_e)	
+#
+#		print('all_e', all_e)
+#			
+	
+#		for i in range(0, self.pocet_stavov):
+#			temp = [1 for x in range(0, lines)]
+#			for j in range(0, lines):
+#				temp[j] = all_s[j][i]
+#			temp.sort()
+#			for j in range(lines-1, -1, -1):
+#				new_s[i] = suma(new_s[i], temp[j])
+#			new_s[i] = mul(new_s[i], -math.log(lines)) 
+#		#print(all_t)
+#		for i in range (0, self.pocet_stavov):
+#			for j in range(0, self.pocet_stavov):
+#				temp= [1 for x in range(0, lines)]
+#				for u in range(0, lines):
+#					temp[u] = all_t[u][i][j]
+#				#print(temp)
+#				temp.sort()
+#				for u in range(lines-1, -1, -1):
+#				#	print(u)
+#				#	print('new_t[i][j] pred pricitanim tempu', new_t[i][j])
+#					new_t[i][j] = suma(new_t[i][j], temp[u])
+#				#	print(new_t[i][j])
+#			temp2 = [1 for x in range(0, self.pocet_stavov)]
+#			#for j in range(0, self.pocet_stavov):
+#			#	temp2[j] = new_t[i][j]
+#			#temp2.sort()
+#			#sumazostavu = 1
+#			for j in range(0, self.pocet_stavov):
+#				#sumazostavu = suma(sumazostavu, temp2[j])
+#				new_t[i][j] = mul(new_t[i][j], -math.log(lines)) #preskalujeme to, aby sa tranzicie z jedneho stavu nascitali do 1
+#				#print(new_t[i][j])
+#		#print(new_t)
+#		for i in range(0, self.pocet_stavov-1):
+#			for x in range(-11, 12):
+#				temp = [1 for u in range(0, lines)]
+#				for u in range(0, lines):
+#					temp[u] = all_e[u][i][x]
+#				temp.sort()
+#				for u in range(lines-1, -1, -1):
+#					new_e[i][x] = suma(new_e[i][x], temp[u])
+#				#print(new_e[i][x])
+#				new_e[i][x] = mul(new_e[i][x], -math.log(lines)) 
+		#print(new_s)
+		#print('new_e', new_e)
+		#print('new_t', new_t)
+		self.s = copy.deepcopy(new_s)
+		self.t = copy.deepcopy(new_t)
+		self.e = copy.deepcopy(new_e)
+#		print("TAKETO JE T ", self.t)
+#		print("TAKETO JE E ", self.e)
+		#print('new_s', new_s)
+		
+	def natrenuj(self,cykly):
+		for i in range (0, cykly): #iteruje t a e cykly-krat
+			self.new_t_e()
+
+
+
+
+	def Viterbi(self,sekvencia):
+		seq=sekvencia
+		V = [[47 for x in range (self.pocet_stavov)] for x in range(len(seq))]
+		C = [[-1 for x in range (self.pocet_stavov)] for x in range(len(seq))] # C[i][j]=k , ked do V[i][j] sa prislo zo stavu k
+		maximum=0
+		for j in range (0, self.pocet_stavov):
+			#print(self.e)
+			V[0][j] = mul(self.s[j],self.e[j][int(seq[0])])
+			#print('e[j][seq[0]]', self.e[j][int(seq[0])])
+			#print('s[j]', self.s[j])
+			#print('V[0, j]', V[0][j])
+		for i in range(1, len(seq)):
+			for j in range (0, self.pocet_stavov):
+				C[i][j] = -1
+				maximum = -9999999999  # hladame najvacsie zaporne cislo (alebo az 0 = vtedy je pravdepodobnost 1)
+				for k in range (0, self.pocet_stavov):
+					if (mul(mul(V[i-1][k],self.t[k][j]),self.e[j][int(seq[i])])>maximum):
+						#print('som v ife')
+						maximum = mul(mul(V[i-1][k],self.t[k][j]),self.e[j][int(seq[i])])
+						#print(maximum)
+						V[i][j] = maximum
+						C[i][j] = k
+		
+		#najdeme maximum v poslednom stlpci
+		maximum = -999999999
+		#print(V)
+		for j in range(0, self.pocet_stavov):
+				if (V[len(seq)-1][j])>maximum:
+					maximum=V[len(seq)-1][j]
+					#print('maximum', maximum)
+		return maximum
+
+def vstup(a, b, c):
+	noty = open(a, 'r')
+	abs_cisla = open(b, 'w')
+	for line in noty:
+		pesnicka=line.split()
+		for i in range(0, len(pesnicka)):
+			if pesnicka[i] == 'c':
+				pesnicka[i] = '0'
+			elif pesnicka[i] == 'cis' or pesnicka[i] == 'db':
+				pesnicka[i] = '1'
+			elif pesnicka[i] == 'd':
+				pesnicka[i] = '2'
+			elif pesnicka[i] == 'dis' or pesnicka[i] == 'eb':
+				pesnicka[i] = '3'
+			elif pesnicka[i] == 'e':
+				pesnicka[i] = '4'
+			elif pesnicka[i] == 'f':
+				pesnicka[i] = '5'
+			elif pesnicka[i] == 'fis' or pesnicka[i] == 'gb':
+				pesnicka[i] = '6'
+			elif pesnicka[i] == 'g':
+				pesnicka[i] = '7'
+			elif pesnicka[i] == 'gis' or pesnicka[i] == 'ab':
+				pesnicka[i] = '8'
+			elif pesnicka[i] == 'a' :
+				pesnicka[i] = '9'
+			elif pesnicka[i] == 'ais' or pesnicka[i] == 'hb':
+				pesnicka[i] = '10'
+			elif pesnicka[i] == 'h':
+				pesnicka[i] = '11'
+			elif pesnicka[i] == 'c2':
+				pesnicka[i] = '12'
+			elif pesnicka[i] == 'cis2' or pesnicka[i] == 'db2':
+				pesnicka[i] = '13'
+			elif pesnicka[i] == 'd2':
+				pesnicka[i] = '14'
+			elif pesnicka[i] == 'dis2' or pesnicka[i] == 'eb2':
+				pesnicka[i] = '15'
+			elif pesnicka[i] == 'e2':
+				pesnicka[i] = '16'
+			elif pesnicka[i] == 'f2':
+				pesnicka[i] = '17'
+			elif pesnicka[i] == 'fis2' or pesnicka[i] == 'gb2':
+				pesnicka[i] = '18'
+			elif pesnicka[i] == 'g2':
+				pesnicka[i] = '19'
+			elif pesnicka[i] == 'gis2' or pesnicka[i] == 'ab2':
+				pesnicka[i] = '20'
+			elif pesnicka[i] == 'a2':
+				pesnicka[i] = '21'
+			elif pesnicka[i] == 'ais2' or pesnicka[i] == 'hb2':
+				pesnicka[i] = '22'
+			abs_cisla.write(pesnicka[i] + ' ')
+		abs_cisla.write('\n')
+
+	noty.close()
+	abs_cisla.close()
+	
+	abs_cisla = open(b, 'r')
+	rel_cisla = open(c, 'w')
+	for line in abs_cisla:
+		pesnicka=line.split()
+		pesnicka2={}
+		for i in range(1, len(pesnicka)):
+			pesnicka2[i] = str(int(pesnicka[i])-int(pesnicka[i-1]))
+			rel_cisla.write(pesnicka2[i]+' ')
+		rel_cisla.write('\n')
+	abs_cisla.close()
+	rel_cisla.close()
+	
+vstup('slovenske_noty.txt', 'slovenske_abs_cisla.txt', 'slovenske_rel_cisla.txt')
+#vstup('nemecke_noty.txt', 'nemecke_abs_cisla.txt', 'nemecke_rel_cisla.txt')
+#vstup('china_noty.txt', 'china_abs_cisla.txt', 'china_rel_cisla.txt')
+print('Vyrabam slovenske hmm...')
+slovenske_hmm = HMM()
+slovenske_hmm.nastav([0.5, 0.3, 0.2], [[0.04347 for x in range(23)] for x in range(3)], [[0.2, 0.8,0],[0, 0.2,0.8], [0, 0, 1]], 'slovenske_rel_cisla.txt')
+slovenske_hmm.natrenuj(1)
+print('Vyrabam nemecke hmm...')
+nemecke_hmm = HMM()
+nemecke_hmm.nastav([0.5, 0.3, 0.2], [[0.04347 for x in range(23)] for x in range(3)], [[0.5, 0.5,0],[0, 0.5,0.5], [0, 0, 1]], 'nemecke_rel_cisla.txt')
+nemecke_hmm.natrenuj(1)
+print('Vyrabam cinske hmm...')
+china_hmm = HMM()
+china_hmm.nastav([0.5, 0.3, 0.2], [[0.04347 for x in range(23)] for x in range(3)], [[0.5, 0.5,0],[0, 0.5,0.5], [0, 0, 1]], 'china_rel_cisla.txt')
+china_hmm.natrenuj(1)
+
+print('Viterbi')
+print('Vysledok viterbiho', slovenske_hmm.Viterbi('020232'))
+print('Vysledok viterbiho', nemecke_hmm.Viterbi('020232'))
+print('Vysledok viterbiho', china_hmm.Viterbi('020232'))
+
+

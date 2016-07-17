@@ -1,0 +1,60 @@
+hb hb c2 eb2 c2 hb hb hb c2 eb2 c2 hb g f hb c2 hb c2 hb hb g g g f g hb hb c2 f2 d2 c2 hb g g hb c2 c2 hb c2 c2 d2 hb hb  c2 f2 d2 c2 hb c2 g g f g hb eb2 c2 c2 eb2 c2 g hb c2 c2 hb g g f e hb g f hb g f
+d d e g g d2 d2 h a d2 d2 d2 e2 h a g e g d g e g d e d g e g g d e d g g h a d2 d2 d2 h d2 h a e g g g g e d
+d2 f2 d2 c2 a d2 f2 d2 c2 a a c2 d2 f f g a a a c2 d2 d2 c2 d2 c2 a g f f a g f d d c d f d f g f f a g f d d c2 d2
+f2 f2 e2 d2 hb c2 f g f2 f2 d2 c2 hb c2 f g f2 g2 f2 g2 f2 g2 f2 d2 c2 hb hb g f d c f2 d2 c2 f2 c2 hb g f g f g e d c
+d d d f g e2 d2 d2 c2 a c2 a g a c2 c2 d2 c2 a g g f d f d d f g a e2 d2 c2 a c2 a g a c2 c2 d2 c2 a g g f d f d
+a a c2 a e2 e2 a c2 a g a c2 a c2 e2 a a c2 e2 a c2 a g c2 a g g g2 e2 e2 e2 a e2 a c2 g a a e2 a c2 e2 a a c2 e2 a c2 a g
+g g a d2 e2 d2 h h a h d2 h a g h a h h a g a g a g e d g e e d g g a d2 e2 d2 h h a h d2 h a g h a h h a g a g a g e d g e e d a g e d e g a h g d e g a e g d h h d2 a h d2 e2 h g a h d2 a
+d2 d2 d2 g2 c2 a g c2 c2 c2 d2 f g eb d c hb c2 d2 d2 g g2 c2 d2 hb a g g f g d2 hb c2 hb g f g hb a g
+cis2 fis2 e2 cis2 e2 cis2 h cis2 e2 gis fis a h cis2 fis2 e2 cis2 cis2 e2 gis fis h h gis fis e fis e gis fis e fis cis2 h a fis e cis h cis2 fis2 e2 cis2 e2 cis2 h h cis2 e cis e dis cis2 a fis fis e cis h
+e2 a2 h d2 a g a h a d e e c2 c2 d2 a g a h a d e a a a d2 e2 a2 e2 d2 cis2 h a h a h a g e a e d cis a a e a d2 g a e d e e a e d cis h a
+e2 cis2 h e2 d2 cis2 h e2 fis2 e2 cis2 h fis a e2 cis2 e2 h cis2 h a h a fis e a g a h e2 e2 a h fis e h cis2 e2 h cis2 e2 h cis2 h cis2 h cis2 e2 h h h h e2 fis2 e2 cis2 h fis a h h fis e
+d2 e2 d2 a d2 g2 e2 d2 d2 g2 g2 e2 d2 d2 d2 a d2 g2 fis2 g d2 e2 d2 cis2 d2 a g d c2 d2 a d2 fis g d cis2 d2 a g fis g d g g fis g a a h d2 g2 e2 d2 h fis e g a e e d
+d2 d2 d2 g2 c2 a d2 e2 d2 e2 d2 c2 a g c2 c2 a c2 d2 e2 d2 c2 d2 g a c2 d2 a g e d
+eb2 d2 c2 g eb2 d2 f c2 g hb c2 hb c2 hb f g c2 g ab g g g f g hb hb c2 hb hb d f g hb f eb hb c eb g hb c2 eb2 g f g c eb eb2 d2 c2 c2 eb2 g g hb c2 eb2 d2 c2 ab g f eb f g ab g eb2 d2 f2 c2 g hb c2 eb2 d2 c2 a g hb f e
+d2 h a d2 h a g g h a d2 h a d2 h a g g h a h a h g a g
+a a d2 e2 d2 h a e g h a g d e d a h a a d2 a g e g h a g d e d a g a a d2 c2 h d2 a d2 e d g fis e a h a a d2 a h g h h a g d e d a h a d2 g fis e a h a a d2 a g e g h a g d e d
+d2 d2 a d2 e2 d2 c2 h d2 a d2 a h a a d g fis e d2 fis a h d2 g fis e d d2 a h a e d g d g a d2 h d2 h a h d g fis e d2 fis a h d2 g fis e d h a h a e d
+e2 e2 e2 e2 h e2 cis2 h e2 fis2 e2 cis2 h a fis a e a h cis2 h cis2 cis2 h a fis cis2 cis2 h a fis e
+d2 e2 d2 a h g fis e a h a e fis d d2 e2 d2 c2 h a h a d a h a e fis d fis h a d2 e2 d2 c2 h a h a d fis h a g fis e d e g d
+h a h a h a h e g e g h a h a g h a e e g h d h d2 a g e e g h d
+g a h g fis e fis g h h c2 d2 d2 a c2 h g a h g fis e fis g
+a fis g a fis d g g fis e d d a fis g a fis d g g fis e d d g h d2 h a fis g h d2 h a fis a fis g a fis d g g fis e d d g h d2 h a fis g h d2 h a fis a fis g a fis d g g fis e d d
+a a a fis a d d h h h h g h a a d2 a a a fis a d fis g e e e cis e d d d2 a a a fis a d fis g e e e cis e d d
+e fis g g a g fis e fis e g a h h c2 h a g a g g a h h c2 h a g fis e a g fis e fis e g a h h c2 h a g fis e a g fis e fis e
+d g h a g fis g e d g fis a g d g h a g fis g e d g fis a g h h c2 h a gis a h c2 a a h a g fis g a h d g h a g fis g e d g fis a g h h c2 h a gis a h c2 a a h a g fis g a h d g h a g fis g e d g fis a g
+g fis g a hb a hb c2 d2 d2 d2 cis2 d hb a d2 d2 cis2 d2 hb a d2 d2 cis2 d hb a g fis g a hb d2 c2 hb a g d2 d2 cis2 d2 hb a d2 d2 cis2 d hb a g fis g a hb d2 c2 hb a g
+g f e f g c2 e2 d2 c2 h a g g f e f g c2 e2 d2 c2 h a g h c2 d2 c2 h a c2 h a g f e h c2 d2 c2 h a c2 h a g f e
+a a fis a h a g fis e e cis d a a fis a h a g fis e e cis d d fis e g g fis d fis e e cis d d fis e g g fis d fis e e cis d
+e fis g a g e g fis e h cis2 d2 e2 d2 h d2 cis2 h h h e2 e2 e2 d2 c2 h a a a a h a g fis e fis g a g e g fis e h e2 e2 e2 d2 c2 h a a a a h a g fis e fis g a g e g fis e
+d g g d e d d g h a f g d g g d e d d g h a f g h c2 h a c2 a a h a g h a d g g d e d d g h a f g h c2 h a c2 a a h a g h g d g g d e d d g h a f g
+d fis a a d2 h h cis2 d2 cis2 h a a h a g fis e a a g fis g a a h a g fis e a a g fis e d
+f d g e c c c2 a d2 c2 g g a h c2 f hb a g e f c c a h c2 f hb a g e f d c c
+a a a hb a g g a hb d2 d2 c2 c2 a c2 hb a g g f e d e f c2 a c2 hb a g g f e d e f
+g g h g d e d a a h g g g g h g d e d a a h g g a a a g a h c2 e2 e2 d2 e2 d2 c2 h a g g a a a g a h c2 e2 e2 d2 e2 d2 c2 h a g g
+h h h a h e a a g fis e d g fis g a h c2 h h a g fis e g fis g a h c2 h h a g fis e
+c f f g e f a a a hb a g a a a hb a g a g f e d c c f f g e f a a a hb a g a g f e d c c f f g e f
+c a a a a a hb a g d g c g g g g g a g f c f c a a a f a c2 f2 e2 d2 g e2 d2 c2 d2 e2 d2 c2 hb a c f c a a a f a c2 f2 e2 d2 g e2 d2 c2 d2 e2 d2 c2 a c f
+hb a g c2 hb a g g d d d2 d2 c2 eb2 d2 d2 hb a a a d2 d2 c2 eb2 d2 d2 hb a g d hb a g c2 hb a g g d d d2 d2 c2 e2 d2 d2 hb a g d hb a g c2 hb a g g d d
+c e g g a a g c2 e f d c c c e g g a a g c2 e f d c c c2 h a h d2 c2 g a h c2 a f e d c e g g a a g c2 e f d c c c2 h a h d2 c2 g a h c2 a f e d c e g g a a g c2 e f d c c
+d fis a d2 cis2 h a h a g fis d fis a a d2 cis2 h a h a g fis a g fis e h a g fis d fis a a d2 cis2 h a h g e d a g fis e h a g fis d fis a a d2 cis2 h a h g e d
+e a c2 h a a gis gis e a h c2 c2 h a c2 h c2 a c2 e2
+e a h c2 h a gis a h c2 d2 e2 d2 c2 c2 h c2 d2 h c2 e2 e2
+eb eb ab ab f f eb eb eb ab ab hb hb c2 ab g f g ab hb c2
+d g a h c2 h a g d g a h c2 h a g
+d d a a a h c2 h a h g a h c2 d2 e2 d2 c2 h a
+ab ab f c2 c2 c2 ab ab g g g f g g g ab hb c2 db2 c2
+d g hb d2 c2 hb a d g hb a d2 c2 hb a
+g d2 d2 d2 hb f2 f2 eb2 d2 f2 g2 d2 c2 hb c2 d2
+d2 d2 c2 hb a d2 d2 c2 hb a c2 hb a g g fis g
+e a e2 e2 e2 d2 f2 d2 c2 h h d2 c2 h c2 e2 h h
+c f f a g f g a a g f a hb a a g f g a a g f
+e e2 d2 c2 d2 h a h a g fis e e a h c2 e2 d2 c2 h
+e a a e e e f c c d e f d e e a a g g g c d
+d hb hb a a a c2 hb a d2 g fis g a a hb hb eb2 d2 d2 cis2
+d g g a hb a hb g hb a hb g fis g a g d g g
+a d e h g a a g a hb a g f g a
+d g hb a d2 c2 hb a d g hb a d2 c2 hb a
+d g hb a g f hb c2 d2 c2 d2 g hb a f hb c2 d2
+a d d d d d2 d2 d2 hb a g f e d e f g a g f e
+d g d g a h h h d2 h h a h h d2 h h a h g
